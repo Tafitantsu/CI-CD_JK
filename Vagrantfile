@@ -5,8 +5,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.hostname = "jenkins-server"
   config.vm.network "forwarded_port", guest: 8080, host: 8080
-  config.vm.
-
 
   config.vm.synced_folder "./init", "/home/vagrant/jenkins", type: "rsync",
     rsync__exclude: ".git/",
@@ -14,7 +12,6 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.vm.provider "vmware_desktop" do |vm|
-
     vm.gui = true
     vm.memory = 4096
     vm.cpus = 2
@@ -22,7 +19,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell",
     path: "docker_install.sh",
-    name: "docker"
+    name: "docker",
     run: "once"
 
   config.vm.provision "shell",
@@ -30,3 +27,4 @@ Vagrant.configure("2") do |config|
     name: "jenkins",
     privileged: false,
     run: "once"
+end
