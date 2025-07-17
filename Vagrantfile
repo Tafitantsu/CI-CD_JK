@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.hostname = "jenkins-server"
 
-  config.vm.synced_folder "./init", "/home/vagrant/jenkins", type: "rsync",
+  config.vm.synced_folder "./jenkins", "/home/vagrant/jenkins", type: "rsync",
     rsync__exclude: ".git/",
     create: true
   config.vm.synced_folder ".", "/vagrant", disabled: true
