@@ -1,0 +1,40 @@
+services:
+  proxy:
+    build:
+      context: contextPath
+      dockerfile: proxy/Dockerfile
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - jenkins
+    depends_on:
+      - jenkins
+  # Service Jenkins
+  jenkins:
+    # On build à partir du Dockerfile situé dans le même dossier
+    build:
+      context: .
+      dockerfile: custom-jenkins/Dockerfile
+    image: custom-jenkins
+    # Exposition des ports HTTP et du port d’agent (JNLP)
+    expose:
+      - "8080"
+    ports:
+      - "50000:50000"
+    # Persistance des données Jenkins et accès au démon Docker de l’hôte
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    # Réseau pour la communication entre les services
+    networks:
+      - jenkins
+
+volumes:
+  jenkins_home:
+    driver: local
+
+networks:
+  jenkins:
+    driver: bridge
