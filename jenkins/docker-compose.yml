@@ -1,5 +1,6 @@
 services:
   proxy:
+    container_name: jenkins-proxy
     build:
       context: proxy
       dockerfile: Dockerfile
@@ -14,6 +15,7 @@ services:
     restart: unless-stopped
   # Service Jenkins
   jenkins:
+    container_name: jenkins-server
     # On build à partir du Dockerfile situé dans le même dossier
     build:
       context: custom-jenkins
