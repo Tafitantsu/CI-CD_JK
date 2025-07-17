@@ -1,8 +1,8 @@
 services:
   proxy:
     build:
-      context: contextPath
-      dockerfile: proxy/Dockerfile
+      context: proxy
+      dockerfile: Dockerfile
     image: nginx:latest
     ports:
       - "80:80"
@@ -16,8 +16,8 @@ services:
   jenkins:
     # On build à partir du Dockerfile situé dans le même dossier
     build:
-      context: .
-      dockerfile: custom-jenkins/Dockerfile
+      context: custom-jenkins
+      dockerfile: Dockerfile
     image: custom-jenkins
     # Exposition des ports HTTP et du port d’agent (JNLP)
     expose:

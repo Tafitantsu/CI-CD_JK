@@ -5,9 +5,11 @@ Vagrant.configure("2") do |config|
 
   config.vm.hostname = "jenkins-server"
 
-  config.vm.synced_folder "./jenkins", "/home/vagrant/jenkins", type: "rsync",
+  config.vm.synced_folder "./jenkins", "/home/vagrant/jenkins",
+    type: "rsync",
     rsync__exclude: ".git/",
-    create: true
+    create: true,
+    rsync__auto: true
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.vm.provider "vmware_desktop" do |vm|
@@ -19,6 +21,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell",
     path: "docker_install.sh",
     name: "docker",
+    privileged: false,
     run: "once"
 
   config.vm.provision "shell",
