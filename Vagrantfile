@@ -4,7 +4,6 @@ Vagrant.configure("2") do |config|
   config.vm.box_check_update = true
 
   config.vm.hostname = "jenkins-server"
-  config.vm.network "forwarded_port", guest: 8080, host: 8080
 
   config.vm.synced_folder "./init", "/home/vagrant/jenkins", type: "rsync",
     rsync__exclude: ".git/",
