@@ -1,4 +1,42 @@
 services:
+  docker:
+    image: docker:dind
+    container_name: docker-dind
+    privileged: true
+    restart: unless-stopped
+    environment:
+      DOCKER_TLS_CERTDIR: /certs
+    expose:
+      - "2376"
+    networks:
+      - jenkins
+    volumes:
+      - docker-certs:/certs/client
+      - jenkins_home:/var/jenkins_home
+
+  jenkins:
+    container_name: jenkins-server
+    build:
+      context: custom-jenkins
+      dockerfile: Dockerfile
+    image: custom-jenkins
+    restart: unless-stopped
+    environment:
+      DOCKER_HOST: tcp://docker:2376
+      DOCKER_CERT_PATH: /certs/client
+      DOCKER_TLS_VERIFY: '1'
+    expose:
+      - "8080"
+    ports:
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - docker-certs:/certs/client:ro
+    depends_on:
+      - docker
+    networks:
+      - jenkins
+
   proxy:
     container_name: jenkins-proxy
     build:
@@ -13,31 +51,10 @@ services:
     depends_on:
       - jenkins
     restart: unless-stopped
-  # Service Jenkins
-  jenkins:
-    container_name: jenkins-server
-    # On build à partir du Dockerfile situé dans le même dossier
-    build:
-      context: custom-jenkins
-      dockerfile: Dockerfile
-    image: custom-jenkins
-    # Exposition des ports HTTP et du port d’agent (JNLP)
-    expose:
-      - "8080"
-    ports:
-      - "50000:50000"
-    # Persistance des données Jenkins et accès au démon Docker de l’hôte
-    volumes:
-      - jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
-    # Réseau pour la communication entre les services
-    networks:
-      - jenkins
-    restart : unless-stopped
 
 volumes:
   jenkins_home:
-    driver: local
+  docker-certs:
 
 networks:
   jenkins:

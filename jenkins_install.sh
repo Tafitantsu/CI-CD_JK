@@ -8,11 +8,11 @@ if [ ! -d "$JENKINS_DIR" ]; then
     echo "Creating Jenkins directory at $JENKINS_DIR"
     mkdir -p "$JENKINS_DIR"
 fi
+cd ~
+mkdir deploy
+cd deploy
+cp -r "$JENKINS_DIR"/* .
 
-cd "$JENKINS_DIR"
-
-echo "Pulling latest Docker images..."
-docker compose pull
 
 echo "Building and starting Jenkins containers..."
 docker compose up -d --build
