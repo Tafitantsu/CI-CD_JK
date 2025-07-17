@@ -11,6 +11,7 @@ services:
       - jenkins
     depends_on:
       - jenkins
+    restart: unless-stopped
   # Service Jenkins
   jenkins:
     # On build à partir du Dockerfile situé dans le même dossier
@@ -30,6 +31,7 @@ services:
     # Réseau pour la communication entre les services
     networks:
       - jenkins
+    restart : unless-stopped
 
 volumes:
   jenkins_home:
