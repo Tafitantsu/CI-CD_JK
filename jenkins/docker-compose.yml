@@ -17,7 +17,7 @@ services:
     volumes:
       - jenkins_home:/var/jenkins_home
     depends_on:
-      - docker
+      - docker-proxy
     networks:
       - jenkins
 
