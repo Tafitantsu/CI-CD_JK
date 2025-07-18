@@ -7,7 +7,7 @@ services:
     environment:
       DOCKER_TLS_CERTDIR: /certs
     expose:
-      - "2376"
+      - "2375"
     networks:
       - jenkins
     volumes:
@@ -23,15 +23,12 @@ services:
     restart: unless-stopped
     environment:
       DOCKER_HOST: tcp://docker:2376
-      DOCKER_CERT_PATH: /certs/client
-      DOCKER_TLS_VERIFY: '1'
     expose:
       - "8080"
     ports:
       - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home
-      - docker-certs:/certs/client:ro
     depends_on:
       - docker
     networks:
@@ -54,7 +51,6 @@ services:
 
 volumes:
   jenkins_home:
-  docker-certs:
 
 networks:
   jenkins:
