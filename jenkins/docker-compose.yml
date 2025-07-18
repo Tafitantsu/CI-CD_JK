@@ -5,13 +5,12 @@ services:
     privileged: true
     restart: unless-stopped
     environment:
-      DOCKER_TLS_CERTDIR: /certs
+      DOCKER_TLS_CERTDIR: ""
     expose:
       - "2375"
     networks:
       - jenkins
     volumes:
-      - docker-certs:/certs/client
       - jenkins_home:/var/jenkins_home
 
   jenkins:
@@ -22,7 +21,7 @@ services:
     image: custom-jenkins
     restart: unless-stopped
     environment:
-      DOCKER_HOST: tcp://docker:2376
+      DOCKER_HOST: tcp://docker:2375
     expose:
       - "8080"
     ports:

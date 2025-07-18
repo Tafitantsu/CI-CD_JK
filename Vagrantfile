@@ -7,7 +7,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder "./jenkins", "/home/vagrant/jenkins",
     type: "rsync",
-    rsync__exclude: ".git/",
     create: true,
     rsync__auto: true
   config.vm.synced_folder ".", "/vagrant", disabled: true
