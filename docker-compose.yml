@@ -1,0 +1,54 @@
+services:
+# Docker-outside-in-Docker setup with a proxy for Docker socket
+  
+  jenkins:
+    container_name: jenkins-server
+    build:
+      context: custom-jenkins
+      dockerfile: Dockerfile
+    image: custom-jenkins
+    restart: unless-stopped
+    environment:
+      DOCKER_HOST: tcp://docker-proxy:2375
+    expose:
+      - "8080"
+    ports:
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    depends_on:
+      - docker
+    networks:
+      - jenkins
+
+  proxy:
+    container_name: jenkins-proxy
+    build:
+      context: proxy
+      dockerfile: Dockerfile
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - jenkins
+    depends_on:
+      - jenkins
+    restart: unless-stopped
+    
+  docker-proxy:
+    image: alpine/socat
+    container_name: docker-proxy
+    restart: unless-stopped
+    command: tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - jenkins
+
+volumes:
+  jenkins_home:
+
+networks:
+  jenkins:
+    driver: bridge
