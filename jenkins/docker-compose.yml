@@ -20,6 +20,21 @@ services:
       - docker-proxy
     networks:
       - jenkins
+  jenkins-agent:
+    container_name: jenkins-agent
+    build:
+      context: custom-jenkins-agent
+      dockerfile: Dockerfile
+    image: custom-jenkins-agent
+    restart: unless-stopped
+    environment:
+      DOCKER_HOST: tcp://docker-proxy:2375
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    depends_on:
+      - docker-proxy
+    networks:
+      - jenkins
 
   proxy:
     container_name: jenkins-proxy

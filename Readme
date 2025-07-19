@@ -1,0 +1,5 @@
+service : 
+    -jenkins le server
+    -agent jenkins puisqu'il est recommander de ne pas lancer les builds sur le serveur jenkins
+    -proxy pour le reverse proxy nginx 
+    -docker-proxy pour permettre aux containers jenkins d'utiliser le socket docker du host
