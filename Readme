@@ -1,5 +1,15 @@
-service : 
-    -jenkins le server
-    -agent jenkins puisqu'il est recommander de ne pas lancer les builds sur le serveur jenkins
-    -proxy pour le reverse proxy nginx 
-    -docker-proxy pour permettre aux containers jenkins d'utiliser le socket docker du host
+docker-compose.yml
+    service : 
+        - jenkins le server
+        - agent jenkins puisqu'il est recommander de ne pas lancer les builds sur le serveur jenkins:
+             configurer l'agent jenkins pour qu'il puisse se connecter au serveur jenkins sera manuel
+        - proxy pour le reverse proxy nginx 
+        - docker-proxy pour permettre aux containers jenkins d'utiliser le socket docker du host
+jenkinsfile:
+    exemple de fichier jenkinsfile
+vagrantfile:
+    exemple de fichier vagrantfile pour lancer créer un vm pour avoir une serveur docker dédier
+docker_install.sh:
+    exemple de script pour installer docker sur la vm
+jenkins_agent_install.sh:
+    exemple de script pour installer l'agent jenkins sur la vm
