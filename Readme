@@ -1,15 +1,53 @@
-docker-compose.yml
-    service : 
-        - jenkins le server
-        - agent jenkins puisqu'il est recommander de ne pas lancer les builds sur le serveur jenkins:
-             configurer l'agent jenkins pour qu'il puisse se connecter au serveur jenkins sera manuel
-        - proxy pour le reverse proxy nginx 
-        - docker-proxy pour permettre aux containers jenkins d'utiliser le socket docker du host
+# Structure du projet CI/CD Jenkins
+
+docker-compose.yml:
+    description: >
+        Fichier de configuration Docker Compose pour orchestrer les différents services nécessaires à l'infrastructure CI/CD.
+    services:
+        - jenkins:
+                description: Serveur Jenkins principal pour l'orchestration des pipelines CI/CD.
+        - jenkins-agent:
+                description: >
+                    Agent Jenkins dédié à l'exécution des builds. 
+                    Il est recommandé de ne pas exécuter les builds directement sur le serveur Jenkins.
+                configuration: >
+                    La connexion de l'agent au serveur Jenkins doit être configurée manuellement (clé SSH, jeton, etc.).
+        - nginx-proxy:
+                description: >
+                    Reverse proxy Nginx pour exposer et sécuriser l'accès aux services Jenkins et agents.
+        - docker-proxy:
+                description: >
+                    Service permettant aux conteneurs Jenkins d'accéder au socket Docker du host pour le build d'images.
+
 jenkinsfile:
-    exemple de fichier jenkinsfile
+    description: Exemple de pipeline Jenkinsfile pour automatiser les étapes CI/CD (build, test, déploiement).
+    contenu: |
+        pipeline {
+            agent any
+            stages {
+                stage('Build') {
+                    steps {
+                        echo 'Compilation du projet...'
+                    }
+                }
+                stage('Test') {
+                    steps {
+                        echo 'Exécution des tests...'
+                    }
+                }
+                stage('Deploy') {
+                    steps {
+                        echo 'Déploiement de l\'application...'
+                    }
+                }
+            }
+        }
+
 vagrantfile:
-    exemple de fichier vagrantfile pour lancer créer un vm pour avoir une serveur docker dédier
+    description: Exemple de Vagrantfile pour provisionner une VM dédiée à l'hébergement du serveur Docker.
+
 docker_install.sh:
-    exemple de script pour installer docker sur la vm
-jenkins_agent_install.sh:
-    exemple de script pour installer l'agent jenkins sur la vm
+    description: Script d'installation automatisée de Docker sur la VM.
+
+jenkins_install.sh:
+    description: Script d'installation automatisée de Jenkins sur la VM.
