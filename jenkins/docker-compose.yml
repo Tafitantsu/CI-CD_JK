@@ -21,9 +21,9 @@ services:
     networks:
       - jenkins
   jenkins-agent:
-    container_name: jenkins-agent
+    container_name: manou05/jenkins-agent # modify as needed "manou05" to use like template agent in clouds
     build:
-      context: custom-jenkins-agent
+      context: custom-agent
       dockerfile: Dockerfile
     image: custom-jenkins-agent
     restart: unless-stopped
