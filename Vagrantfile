@@ -1,14 +1,11 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-24.04"
   config.vm.box_version = "202502.21.0"
-  config.vm.box_check_update = true
+  config.vm.box_check_update = false
 
   config.vm.hostname = "jenkins-server"
 
-  config.vm.synced_folder "./jenkins", "/home/vagrant/jenkins",
-    type: "rsync",
-    create: true,
-    rsync__auto: true
+  config.vm.synced_folder "./jenkins", "/home/vagrant/jenkins"
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.vm.provider "vmware_desktop" do |vm|
