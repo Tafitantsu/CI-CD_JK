@@ -19,20 +19,6 @@ services:
       - docker-proxy
     networks:
       - jenkins
-  jenkins-agent:
-    container_name: manou05/jenkins-agent # modify as needed "manou05" to use like template agent in clouds
-    build:
-      context: custom-agent
-      dockerfile: Dockerfile
-    restart: unless-stopped
-    environment:
-      DOCKER_HOST: tcp://docker-proxy:2375
-    volumes:
-      - jenkins_home:/var/jenkins_home
-    depends_on:
-      - docker-proxy
-    networks:
-      - jenkins
 
   proxy:
     container_name: jenkins-proxy
