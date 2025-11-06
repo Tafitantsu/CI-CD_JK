@@ -6,7 +6,6 @@ services:
     build:
       context: custom-jenkins
       dockerfile: Dockerfile
-    image: custom-jenkins
     restart: unless-stopped
     environment:
       DOCKER_HOST: tcp://docker-proxy:2375
@@ -25,7 +24,6 @@ services:
     build:
       context: custom-agent
       dockerfile: Dockerfile
-    image: custom-jenkins-agent
     restart: unless-stopped
     environment:
       DOCKER_HOST: tcp://docker-proxy:2375
@@ -41,7 +39,6 @@ services:
     build:
       context: proxy
       dockerfile: Dockerfile
-    image: nginx:latest
     ports:
       - "80:80"
       - "443:443"
